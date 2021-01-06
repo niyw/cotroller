@@ -10,7 +10,7 @@ namespace niyw.cotroller.MongoDB
     public class cotrollerMongoDbContext : AbpMongoDbContext
     {
         public IMongoCollection<AppUser> Users => Collection<AppUser>();
-        public IMongoCollection<Pool> Books => Collection<Pool>();
+        public IMongoCollection<Pool> AgentPools => Collection<Pool>();
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
