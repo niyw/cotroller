@@ -1,0 +1,10 @@
+{
+  "culture": "zh-Hans",
+  "texts": {
+    "Menu:AgentPools": "代理池管理",
+    "Menu:Pools": "代理池",
+    "Pools": "代理池",    
+    "Enum:TaskAgentPoolType:0": "自动",
+    "Enum:TaskAgentPoolType:1": "部署"
+  }
+}
