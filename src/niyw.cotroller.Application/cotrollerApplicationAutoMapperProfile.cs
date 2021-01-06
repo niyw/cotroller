@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using niyw.cotroller.AgentPools;
 
 namespace niyw.cotroller
 {
@@ -6,9 +7,8 @@ namespace niyw.cotroller
     {
         public cotrollerApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
+            CreateMap<Pool, PoolDto>();
+            CreateMap<CreateUpdatePoolDto, Pool>();
         }
     }
 }
