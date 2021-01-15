@@ -99,7 +99,7 @@ namespace niyw.cotroller.Web.Workers
                     string a = Ex.Message;
                 }
             }
-            return poolList;
+            return poolEntityList;
 
         }
     }

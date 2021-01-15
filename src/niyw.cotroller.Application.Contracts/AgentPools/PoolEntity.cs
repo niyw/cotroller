@@ -10,10 +10,10 @@ namespace niyw.cotroller.AgentPools
         public bool AutoProvision { get; set; }
         public bool AutoUpdate { get; set; }
         public bool AutoSize { get; set; }
-        public int TargetSize { get; set; }
-        public int AgentCloudId { get; set; }
-        public string CreatedBy { get; set; }
-        public string Owner { get; set; }
+        public int? TargetSize { get; set; }
+        public int? AgentCloudId { get; set; }
+        public TfsAccount CreatedBy { get; set; }
+        public TfsAccount Owner { get; set; }
         public int Id { get; set; }
         public string Scope { get; set; }
         public string Name { get; set; }

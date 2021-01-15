@@ -11,6 +11,10 @@
             ajax: abp.libs.datatables.createAjax(niyw.cotroller.agentPools.pool.getList),
             columnDefs: [
                 {
+                    title: l('PoolId'),
+                    data: "poolId"
+                },
+                {
                     title: l('Name'),
                     data: "name"
                 },
@@ -32,9 +36,14 @@
                             }).toLocaleString();
                     }
                 },
+                
                 {
-                    title: l('PoolId'),
-                    data: "poolId"
+                    title: l('IsHosted'),
+                    data: "isHosted"
+                },
+                {
+                    title: l('IsLegacy'),
+                    data: "isLegacy"
                 }
             ]
         })
