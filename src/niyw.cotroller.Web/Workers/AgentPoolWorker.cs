@@ -3,11 +3,14 @@ using Microsoft.Extensions.Logging;
 using niyw.cotroller.AgentPools;
 using Quartz;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.BackgroundWorkers.Quartz;
+using Volo.Abp.ObjectMapping;
 
 namespace niyw.cotroller.Web.Workers
 {
@@ -15,12 +18,13 @@ namespace niyw.cotroller.Web.Workers
     {
         private readonly IPoolAppService _poolAppService = null;
         private readonly IConfiguration _configuration = null;
-        public AgentPoolWorker(IPoolAppService poolAppService, IConfiguration configuration)
+        private readonly IObjectMapper _objectMapper = null;
+        public AgentPoolWorker(IPoolAppService poolAppService, IConfiguration configuration, IObjectMapper objectMapper)
         {
             _poolAppService = poolAppService;
+            _objectMapper = objectMapper;
             JobDetail = JobBuilder.Create<AgentPoolWorker>().WithIdentity(nameof(AgentPoolWorker)).Build();
             Trigger = TriggerBuilder.Create().WithIdentity(nameof(AgentPoolWorker)).WithSimpleSchedule(s => s.WithIntervalInMinutes(1).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires()).Build();
-
 
             ScheduleJob = async scheduler =>
             {
@@ -29,24 +33,36 @@ namespace niyw.cotroller.Web.Workers
                     await scheduler.ScheduleJob(JobDetail, Trigger);
                 }
             };
-            _configuration = configuration;            
+            _configuration = configuration;
         }
 
         public override Task Execute(IJobExecutionContext context)
         {
-            Logger.LogInformation("Executed MyLogWorker..!");
-            var psrr = new PagedAndSortedResultRequestDto { MaxResultCount=100, SkipCount=0 };
-            
-            var poolDto = _poolAppService.GetListAsync(psrr).Result;
-            Logger.LogDebug("---------------------------");
-            Logger.LogDebug(poolDto.Items.Count.ToString());
-            Logger.LogDebug("---------------------------");
-
-            //Volo.Abp.Http.Client.DynamicProxying.
-
+            Logger.LogInformation("Executed AgentPoolWoker, get latest agent pool from azure devops..!");
+            try
+            {
+                var psrr = new PagedAndSortedResultRequestDto { MaxResultCount = 100, SkipCount = 0 };
+                var poolDto = _poolAppService.GetListAsync(psrr).Result;
+                var poolEntityList = GetAgentPools();
+                foreach (var poolEntity in poolEntityList)
+                {
+                    var findPool = poolDto.Items.FirstOrDefault(p => p.PoolId == poolEntity.PoolId);
+                    if (findPool == null)
+                        _poolAppService.CreateAsync(poolEntity);
+                    else
+                        _poolAppService.UpdateAsync(findPool.Id, poolEntity);
+                }
+                Logger.LogInformation("AgentPoolWoker executed successed!");
+            }
+            catch (Exception ex) {
+                Logger.LogError(ex,"Executed AgentPoolWorker failed");
+            }
+            Logger.LogInformation("AgentPoolWoker executed completed!");
             return Task.CompletedTask;
         }
-        private void GetAgentPools() {
+        private List<CreateUpdatePoolDto> GetAgentPools()
+        {
+            var poolEntityList = new List<CreateUpdatePoolDto>();
 
             var tfsConfig = _configuration.GetSection("TfsServer").Get<TfsConfig>();
 
@@ -65,9 +81,13 @@ namespace niyw.cotroller.Web.Workers
                             var responseStr = response.Content.ReadAsStringAsync().Result;
                             dynamic jobj = Newtonsoft.Json.Linq.JObject.Parse(responseStr);
                             Newtonsoft.Json.Linq.JArray poollist = jobj?.value;
-                            if (poollist != null) {
-                                for (int i = 0; i < poollist.Count; i++) { 
-
+                            if (poollist != null)
+                            {
+                                for (int i = 0; i < poollist.Count; i++)
+                                {
+                                    PoolEntity entity = poollist[i].ToObject<PoolEntity>();
+                                    var crudPoolDto = _objectMapper.Map<PoolEntity, CreateUpdatePoolDto>(entity);
+                                    poolEntityList.Add(crudPoolDto);
                                 }
                             }
                         }
@@ -79,6 +99,7 @@ namespace niyw.cotroller.Web.Workers
                     string a = Ex.Message;
                 }
             }
+            return poolList;
 
         }
     }
