@@ -47,6 +47,10 @@ namespace niyw.cotroller
                     .AddBaseTypes(typeof(AbpValidationResource))
                     .AddVirtualJson("/Localization/cotroller");
 
+                options.Resources.Add<AgentPoolsResource>("en")
+                    .AddBaseTypes(typeof(AbpValidationResource))
+                    .AddVirtualJson("/Localization/AgentPools");
+
                 options.DefaultResourceType = typeof(cotrollerResource);
             });
 

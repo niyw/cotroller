@@ -1,0 +1,10 @@
+{
+  "culture": "en",
+  "texts": {   
+    "Menu:AgentPools": "Agent Pool Management",
+    "Menu:Pools": "Agent Pools",
+    "Pools": "Agent Pools",   
+    "Enum:TaskAgentPoolType:0": "Automation",
+    "Enum:TaskAgentPoolType:1": "Deployment"
+  }
+}
