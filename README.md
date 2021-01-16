@@ -1,3 +1,5 @@
+English | [中文](README.zh-CN.md)
+
 # About Cotroller
 
 ![build and test](https://github.com/niyw/cotroller/workflows/Cotroller-CI/badge.svg)
