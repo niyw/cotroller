@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:44389/AgentPools",
+      "applicationUrl": "https://localhost:44389/",
       "sslPort": 44389
     }
   },
@@ -21,7 +21,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:44389/AgentPools"
+      "applicationUrl": "https://localhost:44389/"
     }
   }
 }
