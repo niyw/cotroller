@@ -3,8 +3,18 @@
   "texts": {
     "Menu:AgentPools": "代理池管理",
     "Menu:Pools": "代理池",
-    "Pools": "代理池",    
+    "Pools": "代理池",
     "Enum:TaskAgentPoolType:0": "自动",
-    "Enum:TaskAgentPoolType:1": "部署"
+    "Enum:TaskAgentPoolType:1": "部署",
+    "PoolId": "编号",
+    "Name": "名称",
+    "CreatedOn": "创建时间",
+    "PoolType": "类型",
+    "IsHosted": "是否托管",
+    "IsLegacy": "是否过期",
+    "Menu:Projects": "项目",
+    "Projects": "项目",
+    "LastUpdateTime": "最后更新时间",
+    "Description": "描述"
   }
 }

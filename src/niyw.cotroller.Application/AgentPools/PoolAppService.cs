@@ -9,12 +9,12 @@ namespace niyw.cotroller.AgentPools
         CrudAppService<
             Pool, //The Book entity
             PoolDto, //Used to show books
-            Guid, //Primary key of the book entity
+            int, //Primary key of the book entity
             PagedAndSortedResultRequestDto, //Used for paging/sorting
             CreateUpdatePoolDto>, //Used to create/update a book
         IPoolAppService //implement the IBookAppService
     {
-        public PoolAppService(IRepository<Pool, Guid> repository)
+        public PoolAppService(IRepository<Pool, int> repository)
             : base(repository)
         {
 

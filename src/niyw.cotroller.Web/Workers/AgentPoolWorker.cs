@@ -46,7 +46,7 @@ namespace niyw.cotroller.Web.Workers
                 var poolEntityList = GetAgentPools();
                 foreach (var poolEntity in poolEntityList)
                 {
-                    var findPool = poolDto.Items.FirstOrDefault(p => p.PoolId == poolEntity.PoolId);
+                    var findPool = poolDto.Items.FirstOrDefault(p => p.Id == poolEntity.Id);
                     if (findPool == null)
                         _poolAppService.CreateAsync(poolEntity);
                     else
@@ -85,8 +85,9 @@ namespace niyw.cotroller.Web.Workers
                             {
                                 for (int i = 0; i < poollist.Count; i++)
                                 {
-                                    PoolEntity entity = poollist[i].ToObject<PoolEntity>();
-                                    var crudPoolDto = _objectMapper.Map<PoolEntity, CreateUpdatePoolDto>(entity);
+                                    //PoolEntity entity = poollist[i].ToObject<PoolEntity>();
+                                    //var crudPoolDto = _objectMapper.Map<PoolEntity, CreateUpdatePoolDto>(entity);
+                                    var crudPoolDto = poollist[i].ToObject<CreateUpdatePoolDto>();
                                     poolEntityList.Add(crudPoolDto);
                                 }
                             }
@@ -99,7 +100,7 @@ namespace niyw.cotroller.Web.Workers
                     string a = Ex.Message;
                 }
             }
-            return poolList;
+            return poolEntityList;
 
         }
     }

@@ -1,10 +1,20 @@
 {
   "culture": "en",
-  "texts": {   
+  "texts": {
     "Menu:AgentPools": "Agent Pool Management",
     "Menu:Pools": "Agent Pools",
-    "Pools": "Agent Pools",   
+    "Pools": "Agent Pools",
     "Enum:TaskAgentPoolType:0": "Automation",
-    "Enum:TaskAgentPoolType:1": "Deployment"
+    "Enum:TaskAgentPoolType:1": "Deployment",
+    "PoolId": "Pool Id",
+    "Name": "Display Name",
+    "CreatedOn": "Created On",
+    "PoolType": "Pool Type",
+    "IsHosted": "Is Hosted",
+    "IsLegacy": "Is Legacy",
+    "Menu:Projects": "Projects",
+    "Projects": "Projects",
+    "LastUpdateTime": "LastUpdateTime",
+    "Description": "Description"
   }
 }
