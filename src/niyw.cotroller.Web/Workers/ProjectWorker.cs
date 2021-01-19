@@ -14,17 +14,17 @@ using Volo.Abp.ObjectMapping;
 
 namespace niyw.cotroller.Web.Workers
 {
-    public class AgentPoolWorker : QuartzBackgroundWorkerBase
+    public class ProjectWorker : QuartzBackgroundWorkerBase
     {
-        private readonly IPoolAppService _poolAppService = null;
+        private readonly IProjectAppService _projectAppService = null;
         private readonly IConfiguration _configuration = null;
         private readonly IObjectMapper _objectMapper = null;
-        public AgentPoolWorker(IPoolAppService poolAppService, IConfiguration configuration, IObjectMapper objectMapper)
+        public ProjectWorker(IProjectAppService projectAppService, IConfiguration configuration, IObjectMapper objectMapper)
         {
-            _poolAppService = poolAppService;
+            _projectAppService = projectAppService;
             _objectMapper = objectMapper;
-            JobDetail = JobBuilder.Create<AgentPoolWorker>().WithIdentity(nameof(AgentPoolWorker)).Build();
-            Trigger = TriggerBuilder.Create().WithIdentity(nameof(AgentPoolWorker)).WithSimpleSchedule(s => s.WithIntervalInMinutes(15).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires()).Build();
+            JobDetail = JobBuilder.Create<ProjectWorker>().WithIdentity(nameof(ProjectWorker)).Build();
+            Trigger = TriggerBuilder.Create().WithIdentity(nameof(ProjectWorker)).WithSimpleSchedule(s => s.WithIntervalInMinutes(15).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires()).Build();
 
             ScheduleJob = async scheduler =>
             {
@@ -35,40 +35,38 @@ namespace niyw.cotroller.Web.Workers
             };
             _configuration = configuration;
         }
-
         public override Task Execute(IJobExecutionContext context)
         {
-            Logger.LogInformation("Executed AgentPoolWoker, get latest agent pool from azure devops..!");
+            Logger.LogInformation("Executed ProjectWoker, get latest agent pool from azure devops..!");
             try
             {
-                var psrr = new PagedAndSortedResultRequestDto { MaxResultCount = 100, SkipCount = 0 };
-                var poolDto = _poolAppService.GetListAsync(psrr).Result;
-                var poolEntityList = GetAgentPools();
-                foreach (var poolEntity in poolEntityList)
+                var psrr = new PagedAndSortedResultRequestDto { MaxResultCount = 200, SkipCount = 0 };
+                var projectDto = _projectAppService.GetListAsync(psrr).Result;
+                var projectEntityList = GetProjects();
+                foreach (var poolEntity in projectEntityList)
                 {
-                    var findPool = poolDto.Items.FirstOrDefault(p => p.Id == poolEntity.Id);
+                    var findPool = projectDto.Items.FirstOrDefault(p => p.Id == poolEntity.Id);
                     if (findPool == null)
-                        _poolAppService.CreateAsync(poolEntity);
+                        _projectAppService.CreateAsync(poolEntity);
                     else
-                        _poolAppService.UpdateAsync(findPool.Id, poolEntity);
+                        _projectAppService.UpdateAsync(findPool.Id, poolEntity);
                 }
-                Logger.LogInformation("AgentPoolWoker executed successed!");
+                Logger.LogInformation("ProjectWoker executed successed!");
             }
-            catch (Exception ex) {
-                Logger.LogError(ex,"Executed AgentPoolWorker failed");
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Executed ProjectWoker failed");
             }
-            Logger.LogInformation("AgentPoolWoker executed completed!");
+            Logger.LogInformation("ProjectWoker executed completed!");
             return Task.CompletedTask;
         }
-        private List<CreateUpdatePoolDto> GetAgentPools()
+        private List<CreateUpdateProjectDto> GetProjects()
         {
-            var poolEntityList = new List<CreateUpdatePoolDto>();
-
+            var projectEntityList = new List<CreateUpdateProjectDto>();
             var tfsConfig = _configuration.GetSection("TfsServer").Get<TfsConfig>();
-
             var accessToken = $":{tfsConfig.PAT}";
             accessToken = $"Basic {Convert.ToBase64String(Encoding.ASCII.GetBytes(accessToken))}";
-            var url = $"{tfsConfig.Host}/{tfsConfig.Collection}/_apis/distributedtask/pools?api-version=6.0";
+            var url = $"{tfsConfig.Host}/{tfsConfig.Collection}/_apis/projects?api-version=6.0";
             using (var client = new HttpClient())
             {
                 try
@@ -80,13 +78,13 @@ namespace niyw.cotroller.Web.Workers
                         {
                             var responseStr = response.Content.ReadAsStringAsync().Result;
                             dynamic jobj = Newtonsoft.Json.Linq.JObject.Parse(responseStr);
-                            Newtonsoft.Json.Linq.JArray poollist = jobj?.value;
-                            if (poollist != null)
+                            Newtonsoft.Json.Linq.JArray projectlist = jobj?.value;
+                            if (projectlist != null)
                             {
-                                for (int i = 0; i < poollist.Count; i++)
+                                for (int i = 0; i < projectlist.Count; i++)
                                 {
-                                    var crudPoolDto = poollist[i].ToObject<CreateUpdatePoolDto>();
-                                    poolEntityList.Add(crudPoolDto);
+                                    var crudPoolDto = projectlist[i].ToObject<CreateUpdateProjectDto>();
+                                    projectEntityList.Add(crudPoolDto);
                                 }
                             }
                         }
@@ -98,14 +96,7 @@ namespace niyw.cotroller.Web.Workers
                     throw;
                 }
             }
-            return poolEntityList;
-
+            return projectEntityList;
         }
-    }
-    public class TfsConfig
-    {
-        public string Host { get; set; }
-        public string Collection { get; set; }
-        public string PAT { get; set; }
     }
 }
