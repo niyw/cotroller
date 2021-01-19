@@ -11,6 +11,7 @@ namespace niyw.cotroller.MongoDB
     {
         public IMongoCollection<AppUser> Users => Collection<AppUser>();
         public IMongoCollection<Pool> AgentPools => Collection<Pool>();
+        public IMongoCollection<Project> Projects => Collection<Project>();
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {

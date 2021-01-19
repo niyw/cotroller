@@ -11,6 +11,10 @@
     "CreatedOn": "创建时间",
     "PoolType": "类型",
     "IsHosted": "是否托管",
-    "IsLegacy": "是否过期"
+    "IsLegacy": "是否过期",
+    "Menu:Projects": "项目",
+    "Projects": "项目",
+    "LastUpdateTime": "最后更新时间",
+    "Description": "描述"
   }
 }

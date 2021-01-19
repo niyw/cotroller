@@ -30,10 +30,8 @@ namespace niyw.cotroller.Web.Menus
             var agentPoolLocalizer = context.GetLocalizer<AgentPoolsResource>();
 
             context.Menu.Items.Insert(0, new ApplicationMenuItem(cotrollerMenus.Home, l["Menu:Home"], "~/"));
-
-            context.Menu.AddItem(new ApplicationMenuItem("AgentPools", agentPoolLocalizer["Menu:AgentPools"], icon: "fa fa-book")
-                .AddItem(new ApplicationMenuItem("AgentPools.Pools", agentPoolLocalizer["Menu:Pools"], url: "/AgentPools"))
-                );
+            context.Menu.AddItem(new ApplicationMenuItem("AgentPools", agentPoolLocalizer["Menu:AgentPools"], url: "/AgentPools", icon: "fa fa-book"));
+            context.Menu.AddItem(new ApplicationMenuItem("Projects", agentPoolLocalizer["Menu:Projects"], url: "/Projects", icon: "fa fa-book"));
 
         }
     }

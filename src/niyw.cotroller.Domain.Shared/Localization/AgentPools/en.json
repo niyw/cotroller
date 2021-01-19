@@ -11,6 +11,10 @@
     "CreatedOn": "Created On",
     "PoolType": "Pool Type",
     "IsHosted": "Is Hosted",
-    "IsLegacy": "Is Legacy"
+    "IsLegacy": "Is Legacy",
+    "Menu:Projects": "Projects",
+    "Projects": "Projects",
+    "LastUpdateTime": "LastUpdateTime",
+    "Description": "Description"
   }
 }

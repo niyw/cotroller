@@ -10,6 +10,8 @@ namespace niyw.cotroller
             CreateMap<Pool, PoolDto>();
             CreateMap<CreateUpdatePoolDto, Pool>();
             //CreateMap<PoolEntity, CreateUpdatePoolDto>().ForMember("PoolId", opt=>opt.MapFrom(src=>src.Id));
+            CreateMap<Project, ProjectDto>();
+            CreateMap<CreateUpdateProjectDto, Project>();
         }
     }
 }
