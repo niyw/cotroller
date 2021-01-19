@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace niyw.cotroller.AgentPools
 {
-    public class PoolDto : AuditedEntityDto<Guid>
+    public class PoolDto : AuditedEntityDto<int>
     {
         public DateTime CreatedOn { get; set; }
         public bool AutoProvision { get; set; }
@@ -13,7 +13,7 @@ namespace niyw.cotroller.AgentPools
         public int? AgentCloudId { get; set; }
         public TfsAccount CreatedBy { get; set; }
         public TfsAccount Owner { get; set; }
-        public int PoolId { get; set; }
+        //public int PoolId { get; set; }
         public string Scope { get; set; }
         public string Name { get; set; }
         public bool IsHosted { get; set; }

@@ -10,9 +10,9 @@ namespace niyw.cotroller
     public class AgentPoolDataSeederContributor
         : IDataSeedContributor, ITransientDependency
     {
-        private readonly IRepository<Pool, Guid> _poolRepository;
+        private readonly IRepository<Pool, int> _poolRepository;
 
-        public AgentPoolDataSeederContributor(IRepository<Pool, Guid> poolRepository)
+        public AgentPoolDataSeederContributor(IRepository<Pool, int> poolRepository)
         {
             _poolRepository = poolRepository;
         }
@@ -21,6 +21,7 @@ namespace niyw.cotroller
         {
             if (await _poolRepository.GetCountAsync() <= 0)
             {
+                /*
                 await _poolRepository.InsertAsync(
                     new Pool
                     {
@@ -41,7 +42,7 @@ namespace niyw.cotroller
                         PoolId=4000
                     },
                     autoSave: true
-                );
+                );*/
             }
         }
     }

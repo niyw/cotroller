@@ -11,8 +11,8 @@
             ajax: abp.libs.datatables.createAjax(niyw.cotroller.agentPools.pool.getList),
             columnDefs: [
                 {
-                    title: l('PoolId'),
-                    data: "poolId"
+                    title: l('Id'),
+                    data: "id"
                 },
                 {
                     title: l('Name'),

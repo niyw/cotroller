@@ -7,7 +7,7 @@ namespace niyw.cotroller.AgentPools
     public interface IPoolAppService :
     ICrudAppService< //Defines CRUD methods
         PoolDto, //Used to show books
-        Guid, //Primary key of the book entity
+        int, //Primary key of the book entity
         PagedAndSortedResultRequestDto, //Used for paging/sorting
         CreateUpdatePoolDto> //Used to create/update a book
     {

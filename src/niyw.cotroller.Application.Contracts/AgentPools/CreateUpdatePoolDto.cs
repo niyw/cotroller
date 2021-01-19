@@ -14,7 +14,7 @@ namespace niyw.cotroller.AgentPools
         public int? AgentCloudId { get; set; }
         public TfsAccount CreatedBy { get; set; }
         public TfsAccount Owner { get; set; }
-        public int PoolId { get; set; }
+        public int Id { get; set; }
         public string Scope { get; set; }
         public string Name { get; set; }
         public bool IsHosted { get; set; }

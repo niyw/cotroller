@@ -4,6 +4,7 @@ using System.Text;
 
 namespace niyw.cotroller.AgentPools
 {
+    /*
     public class PoolEntity
     {
         public DateTime CreatedOn { get; set; }
@@ -22,5 +23,5 @@ namespace niyw.cotroller.AgentPools
         public int Size { get; set; }
         public bool IsLegacy { get; set; }
         public TaskAgentPoolOptions Options { get; set; }
-    }
+    }*/
 }
